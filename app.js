@@ -58,10 +58,6 @@ app.post("/", upload.any(), async (req, res) => {
   try {
     const files = req.files || []; // Ensure it's an array
 
-    if (files.length === 0) {
-      return res.status(400).send("No files uploaded.");
-    }
-
     if (files.length > 50) {
       return res.status(400).send("Cannot upload more than 50 files.");
     }
@@ -80,11 +76,33 @@ app.post("/", upload.any(), async (req, res) => {
     }
 
     const parsedBody = [];
+    const metadata = {};
     for (const [key, value] of Object.entries(req.body || {})) {
-      parsedBody.push({
-        name: key,
-        value,
-      });
+      if (key[0] !== "_") {
+        parsedBody.push({
+          name: key,
+          value,
+        });
+        if (key === "email") {
+          metadata.replyTo = value;
+        }
+      } else {
+        if (key === "_replyto") {
+          metadata.replyTo = value;
+        }
+        if (key === "_next") {
+          metadata.next = value;
+        }
+        if (key === "_subject") {
+          metadata.subject = value;
+        }
+        if (key === "_cc") {
+          metadata.cc = value;
+        }
+        if (key === "_bcc") {
+          metadata.bcc = value;
+        }
+      }
     }
 
     const fileFields = {};
@@ -106,22 +124,13 @@ app.post("/", upload.any(), async (req, res) => {
 
     const flatFileFields = Object.values(fileFields).flat();
 
-    // console.log(
-    //   req.params.email || "jack@jackcrane.rocks",
-    //   req.body.referrer || "https://formkit.xyz",
-    //   parsedBody,
-    //   fileFields,
-    //   flatFileFields
-    // );
-
-    req.headers.referrer || req.headers.referer;
-
     await renderResponseEmail(
-      req.params.email,
+      req.query.email,
       req.headers.referrer || req.headers.referer,
       parsedBody,
       fileFields,
-      flatFileFields
+      flatFileFields,
+      metadata
     );
 
     res.sendFile(confirmationPath);

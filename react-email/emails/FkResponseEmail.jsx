@@ -269,7 +269,7 @@ export default FormkitResponseEmail;
 const body = {
   backgroundColor: "#c9c9c9",
   textRendering: "optimizeLegibility",
-  "-webkit-font-smoothing": "antialiased",
+  WebkitFontSmoothing: "antialiased",
   marginBottom: 100,
 };
 
