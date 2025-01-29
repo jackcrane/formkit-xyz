@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirmation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom right, #0a837f, #ededed);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      .confirmation-container {
+        text-align: center;
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        max-width: 400px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .confirmation-container h1 {
+        color: #0a837f;
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+      }
+
+      .confirmation-container p {
+        font-size: 1rem;
+        color: #333;
+        margin-bottom: 1.5rem;
+      }
+
+      .confirmation-container button {
+        background-color: #0a837f;
+        color: white;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .confirmation-container button:hover {
+        background-color: #086d6a;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="confirmation-container">
+      <h1>Thank You!</h1>
+      <p>Your action has been successfully completed.</p>
+      <button onclick="window.location.href='/'">Go Back to Home</button>
+    </div>
+  </body>
+</html>

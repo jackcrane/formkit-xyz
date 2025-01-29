@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Complete HTML Form with Sample Values</title>
+  </head>
+  <body>
+    <h2>Complete HTML Form with Sample Values</h2>
+    <form action="#" method="POST" enctype="multipart/form-data">
+      <!-- Text Inputs -->
+      <label for="text">Text:</label>
+      <input
+        type="text"
+        id="text"
+        name="text"
+        value="Sample Text"
+      /><br /><br />
+
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        value="SamplePassword123"
+      /><br /><br />
+
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        value="example@email.com"
+      /><br /><br />
+
+      <label for="url">URL:</label>
+      <input
+        type="url"
+        id="url"
+        name="url"
+        value="https://example.com"
+      /><br /><br />
+
+      <label for="tel">Telephone:</label>
+      <input
+        type="tel"
+        id="tel"
+        name="tel"
+        value="+1-555-555-5555"
+      /><br /><br />
+
+      <label for="number">Number:</label>
+      <input
+        type="number"
+        id="number"
+        name="number"
+        min="0"
+        max="100"
+        value="42"
+      /><br /><br />
+
+      <label for="search">Search:</label>
+      <input
+        type="search"
+        id="search"
+        name="search"
+        value="Search Query"
+      /><br /><br />
+
+      <!-- Selection Inputs -->
+      <label for="select">Dropdown Select:</label>
+      <select id="select" name="select">
+        <option value="option1" selected>Option 1</option>
+        <option value="option2">Option 2</option>
+        <option value="option3">Option 3</option></select
+      ><br /><br />
+
+      <label>Radio Buttons:</label><br />
+      <input type="radio" id="radio1" name="radio" value="radio1" checked />
+      <label for="radio1">Option 1</label>
+      <input type="radio" id="radio2" name="radio" value="radio2" />
+      <label for="radio2">Option 2</label><br /><br />
+
+      <label>Checkboxes:</label><br />
+      <input type="checkbox" id="check1" name="check1" checked />
+      <label for="check1">Check 1</label>
+      <input type="checkbox" id="check2" name="check2" />
+      <label for="check2">Check 2</label><br /><br />
+
+      <!-- File Upload -->
+      <label for="file">File Upload:</label>
+      <input type="file" id="file" name="file" multiple /><br /><br />
+
+      <!-- File Upload -->
+      <label for="file">File Upload:</label>
+      <input type="file" id="file" name="file2" multiple /><br /><br />
+
+      <!-- Date & Time -->
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="date" value="2025-01-28" /><br /><br />
+
+      <label for="datetime">Datetime:</label>
+      <input
+        type="datetime-local"
+        id="datetime"
+        name="datetime"
+        value="2025-01-28T12:30"
+      /><br /><br />
+
+      <label for="month">Month:</label>
+      <input type="month" id="month" name="month" value="2025-01" /><br /><br />
+
+      <label for="week">Week:</label>
+      <input type="week" id="week" name="week" value="2025-W05" /><br /><br />
+
+      <label for="time">Time:</label>
+      <input type="time" id="time" name="time" value="12:30" /><br /><br />
+
+      <!-- Range & Color -->
+      <label for="range">Range:</label>
+      <input
+        type="range"
+        id="range"
+        name="range"
+        min="0"
+        max="100"
+        value="75"
+      /><br /><br />
+
+      <label for="color">Color Picker:</label>
+      <input type="color" id="color" name="color" value="#ff5733" /><br /><br />
+
+      <!-- Text Area -->
+      <label for="textarea">Textarea:</label><br />
+      <textarea id="textarea" name="textarea" rows="4" cols="50">
+Sample text in a textarea.
+asdfa
+
+
+asdf</textarea
+      ><br /><br />
+
+      <!-- Hidden Input -->
+      <input type="hidden" name="hidden" value="HiddenValue123" />
+
+      <!-- Buttons -->
+      <button type="submit">Submit</button>
+      <button type="reset">Reset</button>
+    </form>
+  </body>
+</html>
