@@ -14,6 +14,16 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.get("/donate", (req, res) => {
+  const donateUrl = process.env.DONATE_URL;
+
+  if (!donateUrl) {
+    return res.status(404).send("Donate URL is not configured.");
+  }
+
+  res.redirect(donateUrl);
+});
+
 // Disallowed file extensions
 const disallowedExtensions = new Set([
   "vbs",

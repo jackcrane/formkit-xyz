@@ -142,8 +142,7 @@ export const FormkitResponseEmail = ({
                 </>
               )}
               <Text style={mt1}>
-                Thanks for using Formkit! If you have any questions, please fill
-                out the form on{" "}
+                Thanks for using Formkit! If you have any questions, please see{" "}
                 <Link
                   href="https://formkit.xyz/help"
                   target="_blank"
@@ -152,14 +151,6 @@ export const FormkitResponseEmail = ({
                   Formkit.xyz/help
                 </Link>
                 . Also, be sure to be aware of our{" "}
-                <Link
-                  href="https://formkit.xyz/restrictions-of-service"
-                  target="_blank"
-                  style={link}
-                >
-                  rules and restrictions of service
-                </Link>
-                ,{" "}
                 <Link
                   href="https://formkit.xyz/privacy"
                   target="_blank"
@@ -197,16 +188,7 @@ export const FormkitResponseEmail = ({
                 </Link>
                 . While it stinks, I reserve the right to suspend service on a
                 form if it is being abused or is causing extreme strain. I will
-                reach out to you beforehand if I need to do so. Details are in
-                the{" "}
-                <Link
-                  href="https://formkit.xyz/restrictions-of-service"
-                  target="_blank"
-                  style={link}
-                >
-                  rules and restrictions of service
-                </Link>{" "}
-                page.
+                reach out to you beforehand if I need to do so.
               </Text>
             </div>
           </div>

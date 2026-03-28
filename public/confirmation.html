@@ -1,63 +1,111 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Confirmation</title>
+    <title>Submission Received</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
+      :root {
+        --page: #c9c9c9;
+        --panel: #f1efee;
+        --ink: #102326;
+        --muted: #4e5a5d;
+        --teal: #0b3d47;
+        --teal-soft: #a2b9bc;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
       body {
-        font-family: Arial, sans-serif;
-        background: linear-gradient(to bottom right, #0a837f, #ededed);
         margin: 0;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 20px;
+        background: var(--page);
+        color: var(--ink);
+        font-family: "Frank Ruhl Libre", Georgia, serif;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
       }
 
-      .confirmation-container {
-        text-align: center;
-        background: white;
+      .panel {
+        width: min(560px, 100%);
+        background: var(--panel);
         border-radius: 12px;
-        padding: 2rem;
-        max-width: 400px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
       }
 
-      .confirmation-container h1 {
-        color: #0a837f;
-        font-size: 1.8rem;
-        margin-bottom: 1rem;
+      .panel-header {
+        padding: 18px 24px;
+        background: var(--teal);
+        color: #e0f1f3;
       }
 
-      .confirmation-container p {
-        font-size: 1rem;
-        color: #333;
-        margin-bottom: 1.5rem;
+      .panel-header h1 {
+        margin: 0;
+        font-size: 2.1rem;
+        line-height: 1;
+        text-decoration: underline;
+        text-underline-offset: 0.12em;
+        text-decoration-thickness: 1px;
       }
 
-      .confirmation-container button {
-        background-color: #0a837f;
-        color: white;
-        border: none;
-        padding: 0.8rem 1.5rem;
-        border-radius: 8px;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
+      .panel-header span {
+        color: var(--teal-soft);
+        text-decoration-color: var(--teal-soft);
       }
 
-      .confirmation-container button:hover {
-        background-color: #086d6a;
+      .panel-body {
+        padding: 24px;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+
+      p {
+        margin: 10px 0 0;
+        font-size: 1.05rem;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      a {
+        display: inline-block;
+        margin-top: 18px;
+        padding: 10px 16px;
+        background: var(--teal);
+        border: 1px solid var(--teal);
+        color: #e0f1f3;
+        text-decoration: none;
       }
     </style>
   </head>
   <body>
-    <div class="confirmation-container">
-      <h1>Thank You!</h1>
-      <p>Your action has been successfully completed.</p>
-      <button onclick="window.location.href='/'">Go Back to Home</button>
+    <div class="panel">
+      <div class="panel-header">
+        <h1>Formkit<span>.xyz</span></h1>
+      </div>
+      <div class="panel-body">
+        <h2>Submission received.</h2>
+        <p>Your form was submitted successfully.</p>
+        <p class="muted">
+          If a destination email was configured, the response has been sent.
+        </p>
+        <a href="/">Back to home</a>
+      </div>
     </div>
   </body>
 </html>

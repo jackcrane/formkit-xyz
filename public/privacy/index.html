@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy | Formkit.xyz</title>
+    <meta
+      name="description"
+      content="Privacy information for Formkit.xyz, including what submission data is processed and how it is used."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --page: #c9c9c9;
+        --panel: #f1efee;
+        --ink: #102326;
+        --muted: #4e5a5d;
+        --teal: #0b3d47;
+        --teal-soft: #a2b9bc;
+        --teal-line: rgba(11, 61, 71, 0.28);
+        --link: #d17128;
+        --chip: #e5e5e5;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--page);
+        color: var(--ink);
+        font-family: "Frank Ruhl Libre", Georgia, serif;
+        line-height: 1.5;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: var(--link);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.14em;
+      }
+
+      .page {
+        width: min(920px, calc(100% - 32px));
+        margin: 32px auto;
+        background: var(--panel);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .hero {
+        background: var(--teal);
+        color: #e0f1f3;
+        padding: 24px 28px 20px;
+      }
+
+      .brand {
+        margin: 0;
+        font-size: clamp(2.3rem, 7vw, 4rem);
+        line-height: 0.95;
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.12em;
+      }
+
+      .brand span {
+        color: var(--teal-soft);
+        text-decoration-color: var(--teal-soft);
+      }
+
+      .hero p {
+        margin: 10px 0 0;
+        font-size: 1.2rem;
+      }
+
+      nav {
+        margin-top: 14px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 16px;
+      }
+
+      nav a {
+        color: #e0f1f3;
+      }
+
+      main {
+        padding: 24px 28px 32px;
+      }
+
+      section + section {
+        margin-top: 28px;
+        padding-top: 28px;
+        border-top: 2px solid var(--teal-line);
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+
+      p {
+        margin: 10px 0 0;
+        font-size: 1.06rem;
+      }
+
+      .meta {
+        display: inline-block;
+        margin-top: 12px;
+        padding: 2px 8px;
+        background: var(--chip);
+        border-radius: 4px;
+      }
+
+      ul {
+        margin: 14px 0 0;
+        padding-left: 20px;
+      }
+
+      li + li {
+        margin-top: 8px;
+      }
+
+      @media (max-width: 700px) {
+        .page {
+          width: min(100%, calc(100% - 20px));
+          margin: 10px auto;
+          border-radius: 10px;
+        }
+
+        .hero,
+        main {
+          padding-left: 18px;
+          padding-right: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <h1 class="brand">Formkit<span>.xyz</span></h1>
+        <p>Privacy</p>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/help">Help</a>
+          <a href="/terms-of-service">Terms</a>
+        </nav>
+      </header>
+      <main>
+        <section>
+          <h2>Overview</h2>
+          <p>
+            Formkit is an email-based form backend. When someone submits a form
+            configured to use Formkit, the service processes the submission and
+            forwards it by email.
+          </p>
+          <p class="meta">Last updated March 28, 2026</p>
+        </section>
+
+        <section>
+          <h2>What Formkit processes</h2>
+          <ul>
+            <li>
+              Form field values submitted through a form using the service.
+            </li>
+            <li>Uploaded files included in that submission.</li>
+            <li>
+              The destination email address supplied in the form action query
+              string.
+            </li>
+            <li>
+              Basic request metadata needed to deliver the submission, such as
+              referrer information and email-related fields you include.
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>How that information is used</h2>
+          <ul>
+            <li>To construct and send the resulting email message.</li>
+            <li>To attach uploaded files to that message when applicable.</li>
+            <li>
+              To operate, secure, debug, and protect the service from abuse.
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Service providers</h2>
+          <p>
+            Formkit uses third-party infrastructure to run the service and
+            deliver email. Based on the current implementation, email delivery
+            is handled through Postmark. Those providers may process submission
+            data as part of delivering the service.
+          </p>
+        </section>
+
+        <section>
+          <h2>Retention and sensitivity</h2>
+          <p>
+            Formkit is designed to process submissions and forward them, not to
+            act as a long-term records system. Operational logs or provider-side
+            records may still exist as part of running and debugging the
+            service.
+          </p>
+          <p>
+            Do not use Formkit for highly sensitive, regulated, or secret data
+            unless you are comfortable sending that information through an
+            email-based workflow and the providers involved in delivery.
+          </p>
+        </section>
+
+        <section>
+          <h2>Your choices</h2>
+          <ul>
+            <li>Only include data you intend to send by email.</li>
+            <li>
+              Avoid collecting personal information you do not actually need.
+            </li>
+            <li>
+              If you do not agree with this policy, do not submit forms through
+              Formkit.
+            </li>
+          </ul>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
