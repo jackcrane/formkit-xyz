@@ -261,6 +261,7 @@ app.post("/", upload.any(), async (req, res) => {
       parsedBody,
       fileFields,
       flatFileFields,
+      files,
       metadata,
     );
     emailSent = true;
