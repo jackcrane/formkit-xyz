@@ -224,7 +224,7 @@ app.post("/", upload.any(), async (req, res) => {
       parsedBody,
       fileFields,
       flatFileFields,
-      metadata
+      metadata,
     );
     emailSent = true;
 
@@ -299,8 +299,8 @@ app.use((err, req, res, next) => {
 const start = async () => {
   await runSubmissionMigrations();
 
-  app.listen(3001, () => {
-    console.log(`Listening on port 3001`);
+  app.listen(80, () => {
+    console.log(`Listening on port 80`);
   });
 };
 
