@@ -8,6 +8,8 @@ on:
 
 env:
   IMAGE_NAME: formkit-xyz
+  COOLIFY_WEBHOOK: ${{ secrets.COOLIFY_WEBHOOK }}
+  COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
 
 jobs:
   docker:
@@ -36,5 +38,13 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/formkit-xyz:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/formkit-xyz:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+      - name: Trigger Coolify deploy
+        run: |
+          [ -n "$COOLIFY_WEBHOOK" ] || { echo "COOLIFY_WEBHOOK is not set"; exit 1; }
+          [ -n "$COOLIFY_TOKEN" ] || { echo "COOLIFY_TOKEN is not set"; exit 1; }
+          curl --fail --silent --show-error \
+            --request GET "$COOLIFY_WEBHOOK" \
+            --header "Authorization: Bearer $COOLIFY_TOKEN"
