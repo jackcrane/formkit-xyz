@@ -1,7 +1,16 @@
 import express from "express";
 import multer from "multer";
 import path from "path";
+import dotenv from "dotenv";
 import { renderResponseEmail } from "./lib/renderEmail.js";
+import {
+  createSubmissionRecord,
+  runSubmissionMigrations,
+  updateSubmissionRecord,
+} from "./lib/submissionStore.js";
+
+dotenv.config();
+
 const confirmationPath = path.resolve("./public/confirmation.html");
 
 const upload = multer({
@@ -64,7 +73,40 @@ const isExtensionAllowed = (filename) => {
   return !disallowedExtensions.has(extension);
 };
 
+const normalizeScalar = (value) => {
+  if (Array.isArray(value)) {
+    return normalizeScalar(value[0]);
+  }
+
+  if (value === undefined || value === null) {
+    return null;
+  }
+
+  if (typeof value === "string") {
+    return value;
+  }
+
+  if (typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
+
+  return JSON.stringify(value);
+};
+
+const getSourceIp = (req) => {
+  const forwardedFor = normalizeScalar(req.headers["x-forwarded-for"]);
+
+  if (typeof forwardedFor === "string" && forwardedFor.length > 0) {
+    return forwardedFor.split(",")[0].trim();
+  }
+
+  return req.socket?.remoteAddress || null;
+};
+
 app.post("/", upload.any(), async (req, res) => {
+  let submissionId = null;
+  let emailSent = false;
+
   try {
     const files = req.files || []; // Ensure it's an array
 
@@ -85,10 +127,13 @@ app.post("/", upload.any(), async (req, res) => {
       }
     }
 
-    const parsedBody = [];
     const metadata = {};
+    const submissionMetadata = {};
+    const formData = {};
+    const parsedBody = [];
     for (const [key, value] of Object.entries(req.body || {})) {
       if (key[0] !== "_") {
+        formData[key] = value;
         parsedBody.push({
           name: key,
           value,
@@ -112,6 +157,15 @@ app.post("/", upload.any(), async (req, res) => {
         if (key === "_bcc") {
           metadata.bcc = value;
         }
+        if (
+          key !== "_replyto" &&
+          key !== "_next" &&
+          key !== "_subject" &&
+          key !== "_cc" &&
+          key !== "_bcc"
+        ) {
+          submissionMetadata[key] = value;
+        }
       }
     }
 
@@ -133,19 +187,75 @@ app.post("/", upload.any(), async (req, res) => {
     }
 
     const flatFileFields = Object.values(fileFields).flat();
+    const totalFileSizeBytes = files.reduce((sum, file) => sum + file.size, 0);
+    const sourceUrl =
+      normalizeScalar(req.headers.referrer) ||
+      normalizeScalar(req.headers.referer) ||
+      normalizeScalar(req.headers.origin);
+    const toEmail = normalizeScalar(req.query.email);
 
-    await renderResponseEmail(
-      req.query.email,
-      req.headers.referrer || req.headers.referer,
+    submissionId = await createSubmissionRecord({
+      requestMethod: req.method,
+      requestPath: req.path,
+      requestQuery: req.query || {},
+      sourceUrl,
+      sourceIp: getSourceIp(req),
+      forwardedFor: normalizeScalar(req.headers["x-forwarded-for"]),
+      userAgent: normalizeScalar(req.headers["user-agent"]),
+      originHeader: normalizeScalar(req.headers.origin),
+      contentType: normalizeScalar(req.headers["content-type"]),
+      toEmail,
+      ccEmail: metadata.cc,
+      bccEmail: metadata.bcc,
+      replyToEmail: metadata.replyTo,
+      subject: metadata.subject,
+      nextUrl: metadata.next,
+      submissionMetadata,
+      formData,
+      fileFields,
+      fileAttachments: flatFileFields,
+      fileCount: files.length,
+      totalFileSizeBytes,
+    });
+
+    const email = await renderResponseEmail(
+      toEmail,
+      sourceUrl,
       parsedBody,
       fileFields,
       flatFileFields,
       metadata
     );
+    emailSent = true;
+
+    try {
+      await updateSubmissionRecord(submissionId, {
+        deliveryStatus: "sent",
+        deliveryError: null,
+        providerMessageId: email?.MessageID || null,
+        responseStatus: 200,
+      });
+    } catch (updateError) {
+      console.error("Failed to mark submission as sent:", updateError);
+    }
 
     res.sendFile(confirmationPath);
   } catch (error) {
     console.error(error);
+
+    if (submissionId !== null && !emailSent) {
+      try {
+        await updateSubmissionRecord(submissionId, {
+          deliveryStatus: "failed",
+          deliveryError: error.message,
+          providerMessageId: null,
+          responseStatus: 500,
+        });
+      } catch (updateError) {
+        console.error("Failed to update submission record:", updateError);
+      }
+    }
+
     res.status(500).send("An error occurred while processing your files.");
   }
 });
@@ -186,6 +296,15 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(3001, () => {
-  console.log(`Listening on port 3001`);
+const start = async () => {
+  await runSubmissionMigrations();
+
+  app.listen(3001, () => {
+    console.log(`Listening on port 3001`);
+  });
+};
+
+start().catch((error) => {
+  console.error("Failed to start application:", error);
+  process.exit(1);
 });
