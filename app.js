@@ -19,6 +19,43 @@ const upload = multer({
 });
 
 const app = express();
+
+const defaultAllowedHeaders = "Content-Type, X-Requested-With";
+
+const applyCorsHeaders = (req, res) => {
+  const requestedHeaders = normalizeScalar(
+    req.headers["access-control-request-headers"],
+  );
+
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    requestedHeaders || defaultAllowedHeaders,
+  );
+  res.setHeader("Access-Control-Max-Age", "86400");
+};
+
+const prefersJsonResponse = (req) => {
+  const accept = normalizeScalar(req.headers.accept);
+  const contentType = normalizeScalar(req.headers["content-type"]);
+
+  return (
+    (typeof accept === "string" && accept.includes("application/json")) ||
+    (typeof contentType === "string" && contentType.includes("application/json"))
+  );
+};
+
+app.use((req, res, next) => {
+  applyCorsHeaders(req, res);
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+
+  next();
+});
+
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -237,6 +274,13 @@ app.post("/", upload.any(), async (req, res) => {
       });
     } catch (updateError) {
       console.error("Failed to mark submission as sent:", updateError);
+    }
+
+    if (prefersJsonResponse(req)) {
+      return res.status(200).json({
+        ok: true,
+        message: "Submission received.",
+      });
     }
 
     res.sendFile(confirmationPath);
